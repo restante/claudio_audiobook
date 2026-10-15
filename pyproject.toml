@@ -51,6 +51,15 @@ packages = ["src/claudio_audiobook"]
 [tool.hatch.build.targets.sdist]
 include = ["src/claudio_audiobook", "tests", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
 
+# Only affects how the repo's uv.lock is resolved (the lockfile must stay under the plugin directory's
+# 256 KiB per-file limit); installing from PyPI with pip or uvx is unaffected.
+[tool.uv]
+environments = [
+    "sys_platform == 'darwin' and python_version >= '3.12'",
+    "sys_platform == 'win32' and python_version >= '3.12'",
+    "sys_platform == 'linux' and python_version >= '3.12'",
+]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 

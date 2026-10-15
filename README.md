@@ -1,3 +1,4 @@
+<!-- mcp-name: io.github.restante/claudio-audiobook -->
 <div align="center">
 
 # 🎧 claudio-audiobook

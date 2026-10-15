@@ -38,5 +38,6 @@ mirrored in `skills/audiobook/SKILL.md` (keep them in step).
   default worth setting once, and the README table, in the same change.
 - Keep `mcp<2` until FastMCP -> MCPServer migration is done on purpose.
 - Record user-facing changes in `CHANGELOG.md`; version in `pyproject.toml`, `__init__.py`,
-  `.claude-plugin/plugin.json`, `desktop/manifest.json` and the pin in `.mcp.json`. PyPI: publish only after the
+  `.claude-plugin/plugin.json`, `desktop/manifest.json`, the pin in `.mcp.json` and `server.json`; then run
+  `uv lock` (it records the version; keep `uv.lock` under 256 KiB, the plugin directory's per-file limit). PyPI: publish only after the
   GitHub release, via the `publish.yml` workflow (Trusted Publishing); a version can never be re-uploaded.

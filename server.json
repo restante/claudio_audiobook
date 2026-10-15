@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.restante/claudio-audiobook",
+  "title": "claudio-audiobook",
+  "description": "Make audiobooks locally with Kokoro voices from your AI assistant. Nothing leaves your computer.",
+  "repository": {
+    "url": "https://github.com/restante/claudio_audiobook",
+    "source": "github"
+  },
+  "version": "0.1.2",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "claudio-audiobook",
+      "version": "0.1.2",
+      "runtimeHint": "uvx",
+      "transport": { "type": "stdio" },
+      "packageArguments": [],
+      "environmentVariables": [
+        { "name": "CLAUDIO_AUDIOBOOK_VOICE", "description": "Default Kokoro voice, e.g. af_heart or a blend af_heart:0.6,af_sky:0.4", "isRequired": false, "format": "string" },
+        { "name": "CLAUDIO_AUDIOBOOK_SPEED", "description": "Default speed, 0.5 to 2.0", "isRequired": false, "format": "string" },
+        { "name": "CLAUDIO_AUDIOBOOK_FORMAT", "description": "Default format: m4b (chapters), mp3 or wav", "isRequired": false, "format": "string" },
+        { "name": "CLAUDIO_AUDIOBOOK_AUTHOR", "description": "Default author tag shown by audiobook players", "isRequired": false, "format": "string" },
+        { "name": "CLAUDIO_AUDIOBOOK_OUTPUT", "description": "Folder where audiobooks are saved (default ~/Audiobooks)", "isRequired": false, "format": "string" }
+      ]
+    }
+  ]
+}
