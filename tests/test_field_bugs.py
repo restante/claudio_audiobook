@@ -17,6 +17,7 @@ COURSE = "# One\nFirst chapter.\n\n# Two\nSecond chapter.\n"
 @pytest.fixture
 def home(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path / "home"))  # Windows takes `~` from this
     (tmp_path / "home").mkdir()
     return tmp_path / "home"
 
