@@ -24,10 +24,11 @@ listing's current instructions before submitting**, this list is from memory and
 Hacker News "Show HN", r/ClaudeAI, r/LocalLLaMA. Lead with the audio sample and the privacy angle (local, no key).
 Write the post in a file first and let the owner approve it.
 
-## Plugin directory validation (15 Oct 2026, `main @ 109c7ee`: 4 warnings, 3 policy holds)
+## Plugin directory validation (15 Oct 2026: 109c7ee had 4 warnings and 3 holds; 70ada8c has 3 and 3)
 
 Fixed in the repo:
-- README no longer contains `curl … | sh` / `irm … | iex` (uv is linked to its install page).
+- README no longer pipes a download into a shell to install uv (it links uv's install page). Don't quote that
+  pattern in any file: the scanner flags the text itself, as it did in this file on the second run.
 - No opaque binaries or SVG in the tree: the sample mp3 is a release asset, the terminal image is a PNG.
 - `.claude-plugin/icon.png` added (1024 px, square). The portal keeps the icon from the first save or
   submission only, so check it before submitting.
@@ -40,3 +41,7 @@ Still open, and why:
   reads (settings, `HOME`) plus one `urlopen` (model download from the Kokoro GitHub release, SHA-256 checked, in
   `model.py`). Leave it and let a reviewer confirm, or ask them what exactly matched.
 - **CLAUDE.md at the plugin root** is not loaded as plugin context. It is repo guidance; harmless.
+
+Second run (`70ada8c`): the icon warning and the image/binary findings cleared (icon, cover and terminal images were
+all "let through"). Still held: the lockfile, the credential heuristic, and one "file that nothing runs" hold whose
+file the report does not name (expand the hold in the portal to see which).
