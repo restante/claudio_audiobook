@@ -213,6 +213,12 @@ and tells you where the file is.
 
 ### Command line
 
+A real run (from [`docs/samples/python-intro.md`](docs/samples/python-intro.md)): three chapters in, one `.m4b`
+with chapter marks out.
+
+![Terminal: claudio-audiobook builds an m4b with three chapters](docs/img/terminal.svg)
+
+
 No Claude needed for text you already have:
 
 ```bash
