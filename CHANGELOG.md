@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.3
+
+Packaging and documentation; no change to how audiobooks are made.
+
+- The package README on PyPI carries the `mcp-name` marker the official MCP Registry reads, and `server.json` is
+  included for registry publishing.
+- README: a chapters card built from a real m4b, install lines use PyPI, no pipe-to-shell install commands.
+- Plugin: an icon, and a size-limited `uv.lock` next to `pyproject.toml` (the launcher pins the PyPI version).
+- Tests: the home-folder tests now pass on Windows (CI is green on Linux, macOS and Windows).
+- Safety: the sdist is an explicit allow-list, so local notes and settings can never be published.
+
 ## 0.1.2
 
 Audiobook tags and cover art, and support for other MCP clients.
