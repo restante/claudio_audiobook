@@ -48,3 +48,9 @@ file the report does not name (expand the hold in the portal to see which).
 
 Third step (after PyPI): `.mcp.json` now launches `uvx --from claudio-audiobook==<version>`, the lockable form the
 directory asks for. Re-run the portal validation to see whether the lockfile hold changes.
+
+Third run (`a77df17`: 1 warning, 3 holds): the lockfile finding cleared. The portal now reports that the server
+runs `uvx claudio-audiobook==0.1.2` from `uv.lock` with 51 pinned entries and hashes. Still held, all for a
+reviewer unless the portal names a file: a generic "prefer a lockfile / vendor the source" hold, the unnamed
+"file nothing runs" hold (suspect: the `python -c` self-check in `espeak.py`), and the credential heuristic
+(no credential exists; env reads plus the one model download).
