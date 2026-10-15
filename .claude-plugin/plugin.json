@@ -1,0 +1,8 @@
+{
+  "name": "claudio-audiobook",
+  "version": "0.1.1",
+  "description": "Create audiobooks locally with Kokoro voices: ask for a course, Claude writes it, the MCP server turns it into audio.",
+  "author": { "name": "Claudio Restante" },
+  "homepage": "https://github.com/restante/claudio_audiobook",
+  "license": "MIT"
+}
