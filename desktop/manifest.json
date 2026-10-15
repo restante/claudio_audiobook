@@ -1,0 +1,112 @@
+{
+  "manifest_version": "0.4",
+  "name": "claudio-audiobook",
+  "display_name": "claudio-audiobook",
+  "version": "0.1.1",
+  "description": "Create audiobooks with local Kokoro voices. Ask for a course; Claude writes it and this turns it into audio. Nothing leaves your computer.",
+  "long_description": "Say something like \"create a python course audiobook\". Claude writes the text, then this extension renders it with the Kokoro voice model on your own computer (the model, about 330 MB, downloads once on first use). Output: one m4b file with chapters, or mp3/wav. Voice, speed, pauses and more can be set in the chat or as defaults below.",
+  "author": {
+    "name": "Claudio Restante",
+    "url": "https://github.com/restante"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/restante/claudio_audiobook"
+  },
+  "homepage": "https://github.com/restante/claudio_audiobook",
+  "license": "MIT",
+  "server": {
+    "type": "uv",
+    "entry_point": "src/claudio_audiobook/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "${__dirname}",
+        "claudio-audiobook-mcp"
+      ],
+      "env": {
+        "CLAUDIO_AUDIOBOOK_OUTPUT": "${user_config.output_dir}",
+        "CLAUDIO_AUDIOBOOK_VOICE": "${user_config.voice}",
+        "CLAUDIO_AUDIOBOOK_SPEED": "${user_config.speed}",
+        "CLAUDIO_AUDIOBOOK_MODEL": "${user_config.model}",
+        "CLAUDIO_AUDIOBOOK_FORMAT": "${user_config.format}"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "make_audiobook",
+      "description": "Turn text (or a file) into an audiobook, as a background job, or preview it with dry_run."
+    },
+    {
+      "name": "audiobook_status",
+      "description": "Progress of an audiobook job."
+    },
+    {
+      "name": "list_voices",
+      "description": "List the available Kokoro voices."
+    },
+    {
+      "name": "setup_check",
+      "description": "Check the voice model, ffmpeg and output folder."
+    }
+  ],
+  "prompts": [
+    {
+      "name": "write_audiobook",
+      "description": "Write a spoken-style course on a topic and turn it into an audiobook.",
+      "arguments": [
+        "topic",
+        "level",
+        "length_minutes"
+      ],
+      "text": "Create an audiobook course on: ${arguments.topic}. Level: ${arguments.level}. About ${arguments.length_minutes} minutes. Write it as spoken markdown with one # heading per chapter, preview with make_audiobook dry_run, then render it."
+    }
+  ],
+  "user_config": {
+    "output_dir": {
+      "type": "directory",
+      "title": "Audiobooks folder",
+      "description": "Where finished audiobooks are saved. Leave empty for the Audiobooks folder in your home folder.",
+      "required": false
+    },
+    "voice": {
+      "type": "string",
+      "title": "Default voice",
+      "description": "A Kokoro voice such as af_heart, bf_emma, am_adam, or a blend like af_heart:0.6,af_sky:0.4.",
+      "default": "af_heart",
+      "required": false
+    },
+    "speed": {
+      "type": "number",
+      "title": "Default speed",
+      "description": "0.5 to 2.0 (1.0 is normal).",
+      "default": 1.0,
+      "min": 0.5,
+      "max": 2.0,
+      "required": false
+    },
+    "model": {
+      "type": "string",
+      "title": "Voice model",
+      "description": "full (best quality, 330 MB) or lite (92 MB, faster).",
+      "default": "full",
+      "required": false
+    },
+    "format": {
+      "type": "string",
+      "title": "Default format",
+      "description": "m4b (one file with chapters), mp3 or wav.",
+      "default": "m4b",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ]
+  }
+}

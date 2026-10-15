@@ -1,0 +1,12 @@
+{
+  "name": "claudio-audiobook",
+  "owner": { "name": "Claudio Restante" },
+  "metadata": { "description": "Local audiobook creation with Kokoro voices for Claude Code." },
+  "plugins": [
+    {
+      "name": "claudio-audiobook",
+      "source": "./",
+      "description": "Create audiobooks locally with Kokoro voices (MCP server + skill)."
+    }
+  ]
+}
