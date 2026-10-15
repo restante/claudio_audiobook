@@ -2,7 +2,11 @@
   "mcpServers": {
     "claudio-audiobook": {
       "command": "uvx",
-      "args": ["--from", "${CLAUDE_PLUGIN_ROOT}", "claudio-audiobook-mcp"]
+      "args": [
+        "--from",
+        "claudio-audiobook==0.1.2",
+        "claudio-audiobook-mcp"
+      ]
     }
   }
 }

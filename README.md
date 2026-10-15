@@ -82,7 +82,7 @@ installed for you. The voice model (about 330 MB, once) downloads on first use.
 Prefer just the MCP server, without the skill?
 
 ```bash
-claude mcp add claudio-audiobook -- uvx --from git+https://github.com/restante/claudio_audiobook claudio-audiobook-mcp
+claude mcp add claudio-audiobook -- uvx --from claudio-audiobook claudio-audiobook-mcp
 ```
 
 ### Claude Desktop
@@ -98,12 +98,12 @@ Desktop installs the dependencies itself.
 It is a standard MCP server (stdio), so it is not tied to Claude. Install it once, then point your tool at it:
 
 ```bash
-uv tool install git+https://github.com/restante/claudio_audiobook   # puts claudio-audiobook-mcp on your PATH
+uv tool install claudio-audiobook                                   # from PyPI; puts claudio-audiobook-mcp on your PATH
 claudio-audiobook download-model                                    # the voice model, about 330 MB, once
 claudio-audiobook doctor                                            # checks everything is in place
 ```
 
-Installing first matters: the first run of `uvx --from git+…` has to fetch and build everything, which can
+Installing first matters: the first run of `uvx` has to download and install everything, which can
 exceed a client's start-up timeout. If your tool cannot find the command, use its full path (`which claudio-audiobook-mcp`).
 
 <details>
@@ -222,7 +222,7 @@ with chapter marks out.
 No Claude needed for text you already have:
 
 ```bash
-uvx --from git+https://github.com/restante/claudio_audiobook \
+uvx --from claudio-audiobook \
   claudio-audiobook build book.md --voice bf_emma --speed 0.95
 ```
 

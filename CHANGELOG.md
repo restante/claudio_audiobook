@@ -12,6 +12,8 @@ Audiobook tags and cover art, and support for other MCP clients.
 - New settings `author`, `narrator`, `cover`, `cover_colors` (CLI flags, MCP arguments, Desktop setting for the
   author). Changing them only repackages the file; no chapter is rendered again.
 - New dependency: `pillow`.
+- Published on PyPI: `uvx --from claudio-audiobook claudio-audiobook-mcp` or `uv tool install claudio-audiobook`. The
+  Claude Code plugin now runs the pinned PyPI version.
 - The tool description, writing guide and skill now tell the AI to leave `format` unset (m4b, with chapters) and
   to say that mp3 and wav have no chapter list.
 - New: works with other MCP clients (Cursor, VS Code / GitHub Copilot, Gemini CLI, Codex CLI). The README has

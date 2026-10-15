@@ -8,7 +8,7 @@ listing's current instructions before submitting**, this list is from memory and
 - [ ] Release-page `.mcpb` install confirmed on a clean Claude Desktop (HANDOVER open item 2)
 - [ ] Repo topics set: `mcp`, `mcp-server`, `claude-code`, `claude-desktop`, `tts`, `kokoro`, `audiobook`, `text-to-speech`, `local-ai`
 - [ ] Social preview image set
-- [ ] Decide on PyPI: several registries prefer an installable package over a git URL
+- [x] PyPI: `claudio-audiobook` 0.1.2 published 15 Oct 2026 (Trusted Publishing, `publish.yml`)
 
 ## Where it can go
 | Where | What it takes | Status |
@@ -16,7 +16,7 @@ listing's current instructions before submitting**, this list is from memory and
 | Own Claude Code marketplace (`.claude-plugin/`) | Already works: `/plugin marketplace add restante/claudio_audiobook` | done |
 | Anthropic Claude Code plugin directory | Submission via Anthropic's process | not started |
 | Claude Desktop extension directory (`.mcpb`) | Submission via Anthropic's process; needs a clean install and likely a privacy statement (README has one) | not started |
-| Official MCP Registry | `server.json` + publish with the registry tool; a PyPI package is the usual route | needs PyPI |
+| Official MCP Registry | `server.json` + publish with the registry tool; PyPI package now exists | ready to prepare |
 | `awesome-mcp-servers` lists | A pull request adding one line | not started |
 | Smithery, Glama, PulseMCP, mcp.so | Some index public GitHub MCP repos automatically, some want a claim or form | not started |
 
@@ -45,3 +45,6 @@ Still open, and why:
 Second run (`70ada8c`): the icon warning and the image/binary findings cleared (icon, cover and terminal images were
 all "let through"). Still held: the lockfile, the credential heuristic, and one "file that nothing runs" hold whose
 file the report does not name (expand the hold in the portal to see which).
+
+Third step (after PyPI): `.mcp.json` now launches `uvx --from claudio-audiobook==<version>`, the lockable form the
+directory asks for. Re-run the portal validation to see whether the lockfile hold changes.
