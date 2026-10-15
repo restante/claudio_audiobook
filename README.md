@@ -239,6 +239,33 @@ $ claudio-audiobook build course.md --dry-run
 Chapters start at `# headings` (or lines like `Chapter 3`); a file without headings is cut into parts.
 Interrupted? Run it again: finished chapters are kept, and only chapters whose text or settings changed are redone.
 
+## Play it anywhere: chapters, tags and cover art
+
+The default output is an **M4B**, the standard audiobook file: AAC audio with chapter marks, the tags players use
+to file it under *Audiobooks* (title, author, narrator, genre "Audiobook"), and a cover.
+
+<img src="docs/img/cover-example.jpg" alt="A generated title cover" width="220" align="right">
+
+- **Cover art is made for you**, locally. Ask the AI for a look (*"a dark green cover"*): it picks the colours and
+  passes them as `cover_colors`. Or give your own picture: *"use ~/Pictures/cover.png"* (`--cover`). A
+  `cover.jpg` or `cover.png` you drop in the book's folder is used too. `--cover none` skips it.
+- **Author and narrator** come from the chat (*"by Ada Lovelace"*) or the `--author` flag. Set a default author
+  once in the Desktop extension settings.
+- The generated cover uses the built-in Latin font: titles in Chinese, Japanese or Korean show empty boxes, so give
+  those books their own cover image.
+
+Import it into:
+
+| Where | How |
+|---|---|
+| **Apple Books** (Mac, iPhone, iPad) | drag the `.m4b` onto Books, or share it from Files |
+| **BookPlayer** (iOS), **Audiobookshelf**, **Plex** | add it to the library folder or import it |
+| **Voice**, **Smart AudioBook Player**, **Listen** (Android) | open the file or copy it to your audiobooks folder |
+| VLC, Foobar2000 | opens it, with a chapter menu |
+
+Choose `--format mp3` for players that don't read M4B (some car stereos). Audible and Kindle use closed formats
+and cannot import it.
+
 ## 54 voices, 9 languages
 
 ```text
@@ -253,7 +280,7 @@ Blend two voices into a new one: `--voice af_heart:0.6,bf_emma:0.4`. List them a
 
 ## Every setting
 
-Available as MCP tool arguments, CLI flags, and (for the first five) defaults in the Desktop settings or the
+Available as MCP tool arguments, CLI flags, and (for the first five, and the author) defaults in the Desktop settings or the
 `CLAUDIO_AUDIOBOOK_*` environment variables.
 
 | Setting | CLI flag | Values | Default |
@@ -267,6 +294,10 @@ Available as MCP tool arguments, CLI flags, and (for the first five) defaults in
 | clause pause | `--clause-pause` | 0 to 5 seconds (after commas, colons) | 0.1 |
 | chapter pause | `--chapter-pause` | 0 to 30 seconds | 1.5 |
 | trim | `--no-trim` | cut silence at sentence ends, or keep it | trim |
+| author | `--author` | shown by players as the author | `CLAUDIO_AUDIOBOOK_AUTHOR`, else none |
+| narrator | `--narrator` | shown as the narrator | `Kokoro (<voice>)` |
+| cover | `--cover` | `.jpg`/`.png` path, `none`, or leave out to generate a title cover | generated |
+| cover colours | `--cover-colors` | `#top,#bottom` for the generated cover | picked from the title |
 | output folder | `-o` / `output_dir` | any folder | `~/Audiobooks/<title>` |
 
 `--dry-run` shows the chapters and the estimated length without rendering. `--force` redoes everything.
