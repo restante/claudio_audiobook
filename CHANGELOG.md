@@ -12,6 +12,8 @@ Audiobook tags and cover art, and support for other MCP clients.
 - New settings `author`, `narrator`, `cover`, `cover_colors` (CLI flags, MCP arguments, Desktop setting for the
   author). Changing them only repackages the file; no chapter is rendered again.
 - New dependency: `pillow`.
+- The tool description, writing guide and skill now tell the AI to leave `format` unset (m4b, with chapters) and
+  to say that mp3 and wav have no chapter list.
 - New: works with other MCP clients (Cursor, VS Code / GitHub Copilot, Gemini CLI, Codex CLI). The README has
   the config for each. Tool schemas now advertise optional parameters as plain types instead of
   `anyOf [T, null]`, which Cursor and Gemini mishandle. Behaviour for Claude is unchanged.

@@ -47,8 +47,9 @@ def make_audiobook(
     chapter plan and the estimated length. Otherwise it starts a background job and returns its id:
     poll audiobook_status. Settings: voice (e.g. af_heart, or a blend "af_heart:0.6,af_sky:0.4"), speed
     0.5-2.0, lang (espeak code such as de), sentence_pause / clause_pause / chapter_pause in seconds,
-    trim (cut silence at sentence ends), model_variant "full" or "lite", format "m4b" (chapters),
-    "mp3" or "wav". Book tags: author, narrator (default: the Kokoro voice). Cover art: by default a
+    trim (cut silence at sentence ends), model_variant "full" or "lite". format: leave it unset for
+    m4b, the default and the audiobook standard (one file with a chapter list, tags and cover); mp3
+    and wav have no chapter list, so use them only when asked, and tell the person that. Book tags: author, narrator (default: the Kokoro voice). Cover art: by default a
     title cover is generated locally; choose its look with cover_colors "#top,#bottom" (hex, pick
     colours that suit the topic), or pass cover="path/to/image.png" (jpg/png) for your own, or
     cover="none". Unset settings use the user's defaults. force=true redoes finished chapters.

@@ -14,6 +14,10 @@ To make an audiobook (for example "create a python course audiobook"):
    then call it again without dry_run to start the job. Set `author` if the person gives one. A title
    cover is generated locally: choose `cover_colors` ("#top,#bottom") that suit the topic, or pass
    `cover` with the path of an image they have.
+   Leave `format` unset: m4b is the default and the best (chapter list, tags, cover). Use mp3 only if the
+   person asks for it (some car stereos and old players) and tell them it has no chapter list; wav is just
+   the per-chapter files. Changing the format, cover, author or narrator later only repackages: finished
+   chapters are not rendered again.
 4. Call audiobook_status with the job id until it is done (the first run also downloads the voice model,
    about 330 MB, once). Tell the person where the files are. Nothing is uploaded anywhere.
 """
