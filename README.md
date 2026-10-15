@@ -8,7 +8,7 @@
 **Works with** Claude Desktop · Claude Code · Cursor · VS Code (Copilot) · Gemini CLI · Codex CLI · any MCP client
 
 [![CI](https://github.com/restante/claudio_audiobook/actions/workflows/ci.yml/badge.svg)](https://github.com/restante/claudio_audiobook/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/restante/claudio_audiobook/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/restante/claudio_audiobook)](https://github.com/restante/claudio_audiobook/releases)
 [![MCP server](https://img.shields.io/badge/MCP-server-8A2BE2)](https://modelcontextprotocol.io)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
@@ -59,7 +59,7 @@ on your own machine.
 
 ## Hear it
 
-Real output, no editing. Voice `bf_emma`, from the text in [`docs/samples/python-intro.md`](docs/samples/python-intro.md):
+Real output, no editing. Voice `bf_emma`, from the text in [`docs/samples/python-intro.md`](https://github.com/restante/claudio_audiobook/blob/main/docs/samples/python-intro.md):
 
 ▶ **[python-intro-bf_emma.mp3](https://github.com/restante/claudio_audiobook/releases/download/v0.1.2/python-intro-bf_emma.mp3)** (18 seconds, 109 KB)
 
@@ -213,10 +213,10 @@ and tells you where the file is.
 
 ### Command line
 
-A real run (from [`docs/samples/python-intro.md`](docs/samples/python-intro.md)): three chapters in, one `.m4b`
+A real run (from [`docs/samples/python-intro.md`](https://github.com/restante/claudio_audiobook/blob/main/docs/samples/python-intro.md)): three chapters in, one `.m4b`
 with chapter marks out.
 
-![Terminal: claudio-audiobook builds an m4b with three chapters](docs/img/terminal.png)
+![Terminal: claudio-audiobook builds an m4b with three chapters](https://raw.githubusercontent.com/restante/claudio_audiobook/main/docs/img/terminal.png)
 
 
 No Claude needed for text you already have:
@@ -244,7 +244,7 @@ Interrupted? Run it again: finished chapters are kept, and only chapters whose t
 The default output is an **M4B**, the standard audiobook file: AAC audio with chapter marks, the tags players use
 to file it under *Audiobooks* (title, author, narrator, genre "Audiobook"), and a cover.
 
-<img src="docs/img/cover-example.jpg" alt="A generated title cover" width="220" align="right">
+<img src="https://raw.githubusercontent.com/restante/claudio_audiobook/main/docs/img/cover-example.jpg" alt="A generated title cover" width="220" align="right">
 
 - **Cover art is made for you**, locally. Ask the AI for a look (*"a dark green cover"*): it picks the colours and
   passes them as `cover_colors`. Or give your own picture: *"use ~/Pictures/cover.png"* (`--cover`). A
@@ -348,7 +348,7 @@ your own copy of the Kokoro files.
 ## Contributing
 
 Issues and PRs welcome, especially: Windows testing, new languages, and sample audiobooks. See
-[`CLAUDE.md`](CLAUDE.md) for architecture and rules.
+[`CLAUDE.md`](https://github.com/restante/claudio_audiobook/blob/main/CLAUDE.md) for architecture and rules.
 
 ```bash
 uv venv --python 3.12 && uv pip install -e ".[dev]" && .venv/bin/pytest

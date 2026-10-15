@@ -11,6 +11,16 @@ requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "Claudio Restante" }]
 keywords = ["audiobook", "tts", "kokoro", "mcp", "claude-code", "claude-desktop", "text-to-speech"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
 dependencies = [
     "kokoro-onnx>=0.5.0",
     "numpy>=1.26",
@@ -24,12 +34,22 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.8"]
 
+[project.urls]
+Homepage = "https://github.com/restante/claudio_audiobook"
+Repository = "https://github.com/restante/claudio_audiobook"
+Issues = "https://github.com/restante/claudio_audiobook/issues"
+Changelog = "https://github.com/restante/claudio_audiobook/blob/main/CHANGELOG.md"
+
 [project.scripts]
 claudio-audiobook = "claudio_audiobook.cli:main"
 claudio-audiobook-mcp = "claudio_audiobook.server:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/claudio_audiobook"]
+
+# An explicit allow-list: the sdist must never pick up local notes or settings.
+[tool.hatch.build.targets.sdist]
+include = ["src/claudio_audiobook", "tests", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
