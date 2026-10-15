@@ -259,9 +259,9 @@ Import it into:
 | Where | How |
 |---|---|
 | **Apple Books** (Mac, iPhone, iPad) | drag the `.m4b` onto Books, or share it from Files |
-| **BookPlayer** (iOS), **Audiobookshelf**, **Plex** | add it to the library folder or import it |
+| **BookPlayer** (iOS, chapters tested), **Audiobookshelf**, **Plex** | add it to the library folder or import it |
 | **Voice**, **Smart AudioBook Player**, **Listen** (Android) | open the file or copy it to your audiobooks folder |
-| VLC, Foobar2000 | opens it, with a chapter menu |
+| VLC, Foobar2000 | plays it. VLC for iOS did not show the chapter list in testing, so use BookPlayer or Apple Books for chapters |
 
 Choose `--format mp3` for players that don't read M4B (some car stereos). Audible and Kindle use closed formats
 and cannot import it.
