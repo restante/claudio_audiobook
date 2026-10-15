@@ -61,15 +61,15 @@ on your own machine.
 
 Real output, no editing. Voice `bf_emma`, from the text in [`docs/samples/python-intro.md`](docs/samples/python-intro.md):
 
-▶ **[python-intro-bf_emma.mp3](docs/samples/python-intro-bf_emma.mp3)** (18 seconds, 109 KB)
+▶ **[python-intro-bf_emma.mp3](https://github.com/restante/claudio_audiobook/releases/download/v0.1.2/python-intro-bf_emma.mp3)** (18 seconds, 109 KB)
 
 That sample rendered in about 6 seconds on the author's Mac (CPU only). A real 11-chapter, 36-minute exam course took about
 3 minutes.
 
 ## Install in 60 seconds
 
-You need [uv](https://docs.astral.sh/uv/) for Claude Code (`curl -LsSf https://astral.sh/uv/install.sh | sh`;
-Windows: `powershell -c "irm https://astral.sh/uv/install.ps1 | iex"`). Everything else, including ffmpeg, is
+You need [uv](https://docs.astral.sh/uv/) for Claude Code ([install it](https://docs.astral.sh/uv/getting-started/installation/):
+macOS `brew install uv`, Windows `winget install --id=astral-sh.uv -e`). Everything else, including ffmpeg, is
 installed for you. The voice model (about 330 MB, once) downloads on first use.
 
 ### Claude Code
@@ -216,7 +216,7 @@ and tells you where the file is.
 A real run (from [`docs/samples/python-intro.md`](docs/samples/python-intro.md)): three chapters in, one `.m4b`
 with chapter marks out.
 
-![Terminal: claudio-audiobook builds an m4b with three chapters](docs/img/terminal.svg)
+![Terminal: claudio-audiobook builds an m4b with three chapters](docs/img/terminal.png)
 
 
 No Claude needed for text you already have:

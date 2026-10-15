@@ -23,3 +23,20 @@ listing's current instructions before submitting**, this list is from memory and
 ## Launch post (draft, not posted)
 Hacker News "Show HN", r/ClaudeAI, r/LocalLLaMA. Lead with the audio sample and the privacy angle (local, no key).
 Write the post in a file first and let the owner approve it.
+
+## Plugin directory validation (15 Oct 2026, `main @ 109c7ee`: 4 warnings, 3 policy holds)
+
+Fixed in the repo:
+- README no longer contains `curl … | sh` / `irm … | iex` (uv is linked to its install page).
+- No opaque binaries or SVG in the tree: the sample mp3 is a release asset, the terminal image is a PNG.
+- `.claude-plugin/icon.png` added (1024 px, square). The portal keeps the icon from the first save or
+  submission only, so check it before submitting.
+
+Still open, and why:
+- **Lockfile / pinned launcher.** The directory wants a `uv.lock` next to the manifest and a launcher of the form
+  `uvx <package>==<version>`. That needs the package on PyPI. A full `uv.lock` is about 368 KB, over the 256 KiB
+  per-file limit; one restricted to Python 3.12+ and three platforms is 250 KB, just under. Decide on PyPI first.
+- **Credential + network hold.** There is no credential in the code. The scanner matched environment-variable
+  reads (settings, `HOME`) plus one `urlopen` (model download from the Kokoro GitHub release, SHA-256 checked, in
+  `model.py`). Leave it and let a reviewer confirm, or ask them what exactly matched.
+- **CLAUDE.md at the plugin root** is not loaded as plugin context. It is repo guidance; harmless.
