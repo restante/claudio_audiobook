@@ -4,6 +4,10 @@
 
 Fixes from the first real Claude Desktop run.
 
+- New: works with other MCP clients (Cursor, VS Code / GitHub Copilot, Gemini CLI, Codex CLI). The README has
+  the config for each. Tool schemas now advertise optional parameters as plain types instead of
+  `anyOf [T, null]`, which Cursor and Gemini mishandle. Behaviour for Claude is unchanged.
+
 - Fix: the speech engine (espeak-ng) cannot use a data folder whose path is longer than about 160 characters,
   and Desktop installs extensions in a path of about 180. It exited the whole worker on the first sentence, so a
   job sat at "0/11" for ever. A short copy of the data is now used, and a start-up self-check turns any remaining
