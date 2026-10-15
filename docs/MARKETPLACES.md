@@ -16,7 +16,7 @@ listing's current instructions before submitting**, this list is from memory and
 | Own Claude Code marketplace (`.claude-plugin/`) | Already works: `/plugin marketplace add restante/claudio_audiobook` | done |
 | Anthropic Claude Code plugin directory | Submission via Anthropic's process | not started |
 | Claude Desktop extension directory (`.mcpb`) | Submission via Anthropic's process; needs a clean install and likely a privacy statement (README has one) | not started |
-| Official MCP Registry | `server.json` + publish with the registry tool; PyPI package now exists | ready to prepare |
+| Official MCP Registry | `server.json` + `mcp-publisher publish`; ownership checked via `mcp-name` in the PyPI README | **published** 15 Oct 2026: `io.github.restante/claudio-audiobook` 0.1.3 |
 | `awesome-mcp-servers` lists | A pull request adding one line | not started |
 | Smithery, Glama, PulseMCP, mcp.so | Some index public GitHub MCP repos automatically, some want a claim or form | not started |
 
@@ -54,3 +54,8 @@ runs `uvx claudio-audiobook==0.1.2` from `uv.lock` with 51 pinned entries and ha
 reviewer unless the portal names a file: a generic "prefer a lockfile / vendor the source" hold, the unnamed
 "file nothing runs" hold (suspect: the `python -c` self-check in `espeak.py`), and the credential heuristic
 (no credential exists; env reads plus the one model download).
+
+MCP Registry (15 Oct 2026): published `io.github.restante/claudio-audiobook` 0.1.3 (status active). A new version
+needs a new PyPI release first (the registry reads the marker from the PyPI README), then `mcp-publisher login github`
+(device code) and `mcp-publisher publish` after bumping both versions in `server.json`. Registry search by the
+full name lagged; searching `claudio-audiobook` finds it.
