@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Security: paths given to the tool (`output_dir`, `file`, `cover`) now expand only the home folder (`~`, `$HOME`,
+  `${HOME}`, and the Windows forms). Other environment variables are no longer expanded, so a path can never read a
+  secret from the environment.
+- README: the Privacy section now also mentions the package install from PyPI.
+
 ## 0.1.3
 
 Packaging and documentation; no change to how audiobooks are made.

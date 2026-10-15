@@ -329,8 +329,14 @@ and an `audiobook` skill. Works with any MCP client that can run a local stdio s
 
 ## Privacy
 
-The only network use is the one-time download of the Kokoro model from its GitHub release, checked against a
-SHA-256 sum. Your text and audio never leave your machine. No telemetry, no accounts.
+claudio-audiobook runs on your machine. Your text and audio are never uploaded, and there is no telemetry, no
+account and no API key.
+
+It uses the network in two ways only: installing the package and its dependencies from PyPI (done by `uv` or
+`pip`), and a one-time download of the Kokoro voice model from its GitHub release, checked against a SHA-256
+sum. It starts only its own programs: the bundled ffmpeg, a start-up check of the speech engine, and a
+background worker of this same package. It does not read or send credentials. Its settings are
+`CLAUDIO_AUDIOBOOK_*` environment variables, and only the home folder (`~`, `$HOME`) is ever expanded in a path.
 
 ## FAQ
 

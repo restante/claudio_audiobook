@@ -163,3 +163,18 @@ def test_a_live_worker_with_no_progress_is_flagged_as_stalled(isolated):
     assert "no progress for" in jobs.describe(record)
     record["updated"] = now - 5
     assert "no progress" not in jobs.describe(record)
+
+
+# --- only the home folder is expanded in paths; other environment variables are never read
+
+
+def test_paths_never_expand_arbitrary_environment_variables(home, monkeypatch):
+    monkeypatch.setenv("SECRET_TOKEN_FOR_TEST", "hunter2")
+    for raw in ("/tmp/$SECRET_TOKEN_FOR_TEST/x", "/tmp/${SECRET_TOKEN_FOR_TEST}/x"):
+        assert "hunter2" not in str(paths.expand(raw))
+        assert paths.expand(raw).as_posix() == raw
+
+
+@pytest.mark.parametrize("raw", ["~/x", "$HOME/x", "${HOME}/x"])
+def test_home_forms_still_expand(home, raw):
+    assert paths.expand(raw) == home / "x"

@@ -3,14 +3,22 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 from pathlib import Path
 
+_HOME_FORM = re.compile(
+    r"^(\$\{(HOME|USERPROFILE)\}|\$(HOME|USERPROFILE)(?=[/\\]|$)|%(HOME|USERPROFILE)%)"
+)
+
 
 def expand(value: str | Path) -> Path:
-    """`~`, `$HOME` and `${HOME}` expanded. Claude Desktop passes a manifest default through
-    literally, and people type `~/Audiobooks`; both must mean the real home folder."""
-    return Path(os.path.expandvars(os.path.expanduser(str(value))))
+    """`~`, `$HOME` and `${HOME}` (and the Windows forms) expanded. Claude Desktop passes a manifest
+    default through literally, and people type `~/Audiobooks`; both must mean the real home folder.
+    No other environment variable is ever expanded, so a path can never read a secret from the
+    environment (`os.path.expandvars` would)."""
+    text = os.path.expanduser(str(value))
+    return Path(_HOME_FORM.sub(lambda _: str(Path.home()), text))
 
 
 def setting(name: str, default: str = "") -> str:
