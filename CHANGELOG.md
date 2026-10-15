@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.4
 
 - Security: paths given to the tool (`output_dir`, `file`, `cover`) now expand only the home folder (`~`, `$HOME`,
   `${HOME}`, and the Windows forms). Other environment variables are no longer expanded, so a path can never read a
