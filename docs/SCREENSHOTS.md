@@ -12,3 +12,11 @@ with `![alt](docs/img/<file>)`. Keep each PNG under ~300 KB, width 1400 px, ligh
 
 Use a neutral topic (the Python course), not private study material. For a social-preview image, export a
 1280×640 PNG of shot 1 and set it in repo Settings → Social preview.
+
+## Status (15 Oct 2026)
+- `terminal.png`: real terminal output of a build (made from a real run).
+- `chapters-card.png`: cover, tags and chapter list read from a real `.m4b` and drawn in our own style (it is not a
+  mock-up of any player). Regenerate it from a new build rather than editing it by hand.
+- `cover-example.jpg`: a real generated cover.
+- **Still to capture by hand (real screens only, never mock-ups):** the Claude Desktop chat, the book open in a
+  real player (BookPlayer or Apple Books), and optionally the hero GIF and the settings page.

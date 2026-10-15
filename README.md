@@ -210,6 +210,8 @@ and tells you where the file is.
 ```
 
 <!-- SCREENSHOT: Claude Desktop chat producing a course — docs/img/desktop-chat.png (docs/SCREENSHOTS.md, shot 2) -->
+![Cover, tags and chapter list read from a finished .m4b](https://raw.githubusercontent.com/restante/claudio_audiobook/main/docs/img/chapters-card.png)
+
 <!-- SCREENSHOT: the finished .m4b in Apple Books / Podcasts showing chapters — docs/img/chapters.png (shot 3) -->
 
 ### Command line
