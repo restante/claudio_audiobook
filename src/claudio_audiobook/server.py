@@ -124,6 +124,29 @@ def write_audiobook(topic: str, level: str = "beginner", length_minutes: int = 6
     )
 
 
+def _flatten_optionals() -> None:
+    """Advertise `str | None` parameters as plain `string`.
+
+    FastMCP emits `anyOf: [{type: T}, {type: null}]` with `default: null`. Cursor and Gemini reject or
+    mishandle that union. The parameters are still optional (not in `required`), and the tool functions
+    still accept None, so only the advertised schema changes.
+    """
+    for tool in mcp._tool_manager.list_tools():
+        for prop in tool.parameters.get("properties", {}).values():
+            branches = prop.get("anyOf")
+            if not branches:
+                continue
+            kept = [b for b in branches if b.get("type") != "null"]
+            if len(kept) == 1:
+                del prop["anyOf"]
+                prop.update(kept[0])
+                if prop.get("default") is None:
+                    prop.pop("default", None)
+
+
+_flatten_optionals()
+
+
 def main() -> None:
     mcp.run()
 
