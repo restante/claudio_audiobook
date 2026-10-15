@@ -18,7 +18,9 @@ Uses the `claudio-audiobook` MCP tools: `make_audiobook`, `audiobook_status`, `l
 4. **Render.** Call it again without `dry_run`. Everything Kokoro allows is an argument: `voice` (a name such as
    `af_heart`, or a blend `"af_heart:0.6,af_sky:0.4"`; see `list_voices`), `speed` (0.5-2.0), `lang` (e.g. `de`),
    `sentence_pause`, `clause_pause`, `chapter_pause` (seconds), `trim`, `model_variant` (`full`/`lite`),
-   `format` (`m4b` with chapter marks, `mp3`, `wav`), `output_dir`, `force`.
+   `format` (`m4b` with chapter marks, `mp3`, `wav`), `output_dir`, `force`. Book tags and cover: `author`,
+   `narrator`; a title cover is generated locally, so pick `cover_colors` (`"#top,#bottom"`) that suit the topic,
+   or pass `cover` with the path of the user's own image (`"none"` for no cover).
 5. **Follow.** Poll `audiobook_status` with the job id until `done` (the first run also downloads the ~330 MB voice
    model once). Report the output path. If it failed, show the message and offer to rerun: finished chapters are
    kept, so a rerun resumes.

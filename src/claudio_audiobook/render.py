@@ -10,7 +10,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
-from claudio_audiobook import model, package, text, voices
+from claudio_audiobook import cover, model, package, text, voices
 from claudio_audiobook.options import Options
 from claudio_audiobook.synth import SAMPLE_RATE, Synth
 
@@ -110,6 +110,21 @@ def _render_chapter(synth, chapter, spoken, opts, index, total, say):
     return np.concatenate(chunks), rate
 
 
+def _cover_for(outdir: Path, title: str, opts: Options) -> Path | None:
+    """The picture to embed, or None. The person's own image wins, then one dropped in the book's
+    folder (cover.jpg / cover.png), else a generated title cover (kept as cover.generated.jpg)."""
+    if opts.cover == "none":
+        return None
+    own = opts.cover_path or cover.dropped_in(outdir)
+    if own:
+        return cover.normalise(own, outdir / cover.EMBED)
+    try:
+        colors = cover.parse_colors(opts.cover_colors)
+        return cover.generate(outdir / cover.GENERATED, title, opts.author, colors)
+    except (OSError, ValueError):  # a book without a cover beats no book
+        return None
+
+
 def build(
     source: Path,
     outdir: Path,
@@ -163,17 +178,18 @@ def build(
     if opts.format == "wav":
         return Result(outdir, wavs, None)
     say("packaging", 0, 1, f"packing {opts.format}")
+    title = book or source.stem
+    embed = None
     try:
+        embed = _cover_for(outdir, title, opts)
+        tags = package.Tags(title, opts.author, opts.narrator_name, embed)
         packed = package.package(
-            outdir,
-            text.slug(book or source.stem),
-            opts.format,
-            wavs,
-            [c.title for c in chapters],
-            book or source.stem,
+            outdir, text.slug(title), opts.format, wavs, [c.title for c in chapters], tags
         )
     except package.PackageError as error:
         return Result(outdir, wavs, None, f"{error}. The chapter WAV files are ready in {outdir}.")
+    finally:
+        (outdir / cover.EMBED).unlink(missing_ok=True)
     say("packaging", 1, 1, "done")
     return Result(outdir, wavs, packed)
 

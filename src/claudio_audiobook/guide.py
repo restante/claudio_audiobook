@@ -11,7 +11,9 @@ To make an audiobook (for example "create a python course audiobook"):
    the text hello"), and explain with examples the listener can follow by ear. For long courses write
    chapter by chapter rather than in one giant message.
 3. Call make_audiobook with the text as `markdown` and dry_run=true to show the chapters and length;
-   then call it again without dry_run to start the job.
+   then call it again without dry_run to start the job. Set `author` if the person gives one. A title
+   cover is generated locally: choose `cover_colors` ("#top,#bottom") that suit the topic, or pass
+   `cover` with the path of an image they have.
 4. Call audiobook_status with the job id until it is done (the first run also downloads the voice model,
    about 330 MB, once). Tell the person where the files are. Nothing is uploaded anywhere.
 """

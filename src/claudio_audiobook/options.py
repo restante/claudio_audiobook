@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from pathlib import Path
 
-from claudio_audiobook import model, paths, voices
+from claudio_audiobook import cover, model, paths, voices
 
 FORMATS = ("m4b", "mp3", "wav")
 
@@ -34,12 +35,17 @@ class Options:
     trim: bool = True  # trim silence Kokoro leaves at the ends of each sentence
     model: str = ""  # "full" (best) or "lite" (smaller, faster)
     format: str = ""  # m4b (chapters), mp3 or wav
+    author: str = ""  # shown by players; default from CLAUDIO_AUDIOBOOK_AUTHOR
+    narrator: str = ""  # default: the Kokoro voice
+    cover: str = ""  # "" or "auto" (generate), "none", or the path of a .jpg/.png
+    cover_colors: str = ""  # "#top,#bottom" for the generated cover; default: from the title
 
     def __post_init__(self) -> None:
         self.voice = self.voice or paths.setting("VOICE") or "af_heart"
         self.speed = self.speed or _env("SPEED", 1.0)
         self.model = self.model or _env("MODEL", "full")
         self.format = self.format or _env("FORMAT", "m4b")
+        self.author = self.author or paths.setting("AUTHOR")
 
     def validate(self) -> Options:
         if not 0.5 <= self.speed <= 2.0:
@@ -51,6 +57,15 @@ class Options:
             raise OptionError(f"model must be one of {', '.join(model.VARIANTS)}")
         if self.format not in FORMATS:
             raise OptionError(f"format must be one of {', '.join(FORMATS)}")
+        if self.cover not in ("", "auto", "none"):
+            try:
+                cover.check_image(paths.expand(self.cover))
+            except (ValueError, OSError) as error:
+                raise OptionError(f"cover: {error}") from error
+        try:
+            cover.parse_colors(self.cover_colors)
+        except ValueError as error:
+            raise OptionError(f"cover_colors: {error}") from error
         try:
             voices.validate(self.voice)
             if self.lang:
@@ -61,6 +76,18 @@ class Options:
 
     def as_dict(self) -> dict:
         return asdict(self)
+
+    @property
+    def narrator_name(self) -> str:
+        """The narrator tag: the given name, else the Kokoro voice(s) that read it."""
+        if self.narrator:
+            return self.narrator
+        return "Kokoro (" + ", ".join(name for name, _ in voices.parse(self.voice)) + ")"
+
+    @property
+    def cover_path(self) -> Path | None:
+        """The person's own cover image, if they gave one."""
+        return paths.expand(self.cover) if self.cover not in ("", "auto", "none") else None
 
     @property
     def spoken_lang(self) -> str:

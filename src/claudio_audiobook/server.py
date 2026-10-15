@@ -33,6 +33,10 @@ def make_audiobook(
     trim: bool | None = None,
     model_variant: str | None = None,
     format: str | None = None,
+    author: str | None = None,
+    narrator: str | None = None,
+    cover: str | None = None,
+    cover_colors: str | None = None,
     dry_run: bool = False,
     force: bool = False,
 ) -> str:
@@ -44,13 +48,17 @@ def make_audiobook(
     poll audiobook_status. Settings: voice (e.g. af_heart, or a blend "af_heart:0.6,af_sky:0.4"), speed
     0.5-2.0, lang (espeak code such as de), sentence_pause / clause_pause / chapter_pause in seconds,
     trim (cut silence at sentence ends), model_variant "full" or "lite", format "m4b" (chapters),
-    "mp3" or "wav". Unset settings use the user's defaults. force=true redoes finished chapters.
+    "mp3" or "wav". Book tags: author, narrator (default: the Kokoro voice). Cover art: by default a
+    title cover is generated locally; choose its look with cover_colors "#top,#bottom" (hex, pick
+    colours that suit the topic), or pass cover="path/to/image.png" (jpg/png) for your own, or
+    cover="none". Unset settings use the user's defaults. force=true redoes finished chapters.
     """
     try:
         opts = service.options_from(
             voice=voice, speed=speed, lang=lang, sentence_pause=sentence_pause,
             clause_pause=clause_pause, chapter_pause=chapter_pause, trim=trim,
-            model=model_variant, format=format,
+            model=model_variant, format=format, author=author, narrator=narrator, cover=cover,
+            cover_colors=cover_colors,
         )  # fmt: skip
         opts.validate()
         source, outdir, book = service.prepare(

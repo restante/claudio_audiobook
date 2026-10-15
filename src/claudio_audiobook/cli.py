@@ -39,6 +39,17 @@ def _add_options(p: argparse.ArgumentParser) -> None:
         "--model", choices=sorted(model.VARIANTS), help="full (best) or lite (smaller, faster)"
     )
     p.add_argument("--format", choices=FORMATS, help="m4b with chapter marks (default), mp3 or wav")
+    p.add_argument(
+        "--author", help="author tag shown by players (default: CLAUDIO_AUDIOBOOK_AUTHOR)"
+    )
+    p.add_argument("--narrator", help="narrator tag (default: the Kokoro voice)")
+    p.add_argument(
+        "--cover",
+        help="cover art: a .jpg/.png path, 'none', or leave out to generate a title cover",
+    )
+    p.add_argument(
+        "--cover-colors", help="colours of the generated cover: #top,#bottom (default: from title)"
+    )
 
 
 def _options(a: argparse.Namespace):
@@ -46,6 +57,7 @@ def _options(a: argparse.Namespace):
         voice=a.voice, speed=a.speed, lang=a.lang, sentence_pause=a.sentence_pause,
         clause_pause=a.clause_pause, chapter_pause=a.chapter_pause,
         trim=False if a.no_trim else None, model=a.model, format=a.format,
+        author=a.author, narrator=a.narrator, cover=a.cover, cover_colors=a.cover_colors,
     )  # fmt: skip
 
 

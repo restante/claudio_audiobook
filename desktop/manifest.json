@@ -2,7 +2,7 @@
   "manifest_version": "0.4",
   "name": "claudio-audiobook",
   "display_name": "claudio-audiobook",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Create audiobooks with local Kokoro voices. Ask for a course; Claude writes it and this turns it into audio. Nothing leaves your computer.",
   "long_description": "Say something like \"create a python course audiobook\". Claude writes the text, then this extension renders it with the Kokoro voice model on your own computer (the model, about 330 MB, downloads once on first use). Output: one m4b file with chapters, or mp3/wav. Voice, speed, pauses and more can be set in the chat or as defaults below.",
   "author": {
@@ -31,7 +31,8 @@
         "CLAUDIO_AUDIOBOOK_VOICE": "${user_config.voice}",
         "CLAUDIO_AUDIOBOOK_SPEED": "${user_config.speed}",
         "CLAUDIO_AUDIOBOOK_MODEL": "${user_config.model}",
-        "CLAUDIO_AUDIOBOOK_FORMAT": "${user_config.format}"
+        "CLAUDIO_AUDIOBOOK_FORMAT": "${user_config.format}",
+        "CLAUDIO_AUDIOBOOK_AUTHOR": "${user_config.author}"
       }
     }
   },
@@ -93,6 +94,12 @@
       "title": "Voice model",
       "description": "full (best quality, 330 MB) or lite (92 MB, faster).",
       "default": "full",
+      "required": false
+    },
+    "author": {
+      "type": "string",
+      "title": "Author name",
+      "description": "Shown by audiobook players as the author. Leave empty to set it per book in the chat.",
       "required": false
     },
     "format": {

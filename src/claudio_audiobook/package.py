@@ -6,6 +6,7 @@ import re
 import shutil
 import subprocess
 import wave
+from dataclasses import dataclass
 from pathlib import Path
 
 
@@ -33,15 +34,32 @@ def wav_seconds(path: Path) -> float:
         return src.getnframes() / src.getframerate()
 
 
-def ffmetadata(titles: list[str], durations: list[float], book: str = "") -> str:
-    """ffmpeg metadata with one chapter per title, so players show a chapter list."""
+@dataclass
+class Tags:
+    """What players show and use to file the book: title, author, narrator and a cover."""
+
+    title: str
+    author: str = ""
+    narrator: str = ""
+    cover: Path | None = None
+
+
+def ffmetadata(titles: list[str], durations: list[float], tags: Tags | str = "") -> str:
+    """ffmpeg metadata: the book tags and one chapter per title (so players show a chapter list)."""
+    tags = Tags(tags) if isinstance(tags, str) else tags
 
     def esc(value: str) -> str:
         return re.sub(r"([=;#\\\n])", r"\\\1", value)
 
     lines = [";FFMETADATA1"]
-    if book:
-        lines.append(f"title={esc(book)}")
+    if tags.title:
+        lines += [f"title={esc(tags.title)}", f"album={esc(tags.title)}"]
+    if tags.author:
+        lines += [f"artist={esc(tags.author)}", f"album_artist={esc(tags.author)}"]
+    if tags.narrator:
+        lines.append(f"composer={esc(tags.narrator)}")
+    if tags.title:
+        lines += ["genre=Audiobook", "comment=Made with claudio-audiobook (Kokoro voices)"]
     start = 0
     for title, seconds in zip(titles, durations, strict=True):
         end = start + int(seconds * 1000)
@@ -57,8 +75,9 @@ def ffmetadata(titles: list[str], durations: list[float], book: str = "") -> str
 
 
 def package(
-    outdir: Path, stem: str, fmt: str, files: list[Path], titles: list[str], book: str
+    outdir: Path, stem: str, fmt: str, files: list[Path], titles: list[str], tags: Tags | str
 ) -> Path:
+    tags = Tags(tags) if isinstance(tags, str) else tags
     listing, meta, target = (
         outdir / ".concat.txt",
         outdir / ".chapters.ffmeta",
@@ -80,11 +99,33 @@ def package(
         str(listing),
     ]
     if fmt == "m4b":
-        meta.write_text(ffmetadata(titles, [wav_seconds(f) for f in files], book), encoding="utf-8")
-        cmd += ["-i", str(meta), "-map_metadata", "1", "-c:a", "aac", "-b:a", "64k"]
-        cmd += ["-movflags", "+faststart"]
+        meta.write_text(ffmetadata(titles, [wav_seconds(f) for f in files], tags), encoding="utf-8")
+        cmd += ["-i", str(meta)]
+        if tags.cover:
+            cmd += ["-i", str(tags.cover)]
+        cmd += ["-map", "0:a", "-map_metadata", "1", "-map_chapters", "1"]
+        if tags.cover:
+            cmd += ["-map", "2:v", "-c:v", "mjpeg", "-disposition:v:0", "attached_pic"]
+        cmd += [
+            "-c:a",
+            "aac",
+            "-b:a",
+            "64k",
+            "-movflags",
+            "+faststart",
+            "-metadata",
+            "media_type=2",
+        ]
     else:
-        cmd += ["-c:a", "libmp3lame", "-q:a", "4", "-metadata", f"title={book}"]
+        meta.write_text(ffmetadata([], [], tags), encoding="utf-8")
+        cmd += ["-i", str(meta)]
+        if tags.cover:
+            cmd += ["-i", str(tags.cover)]
+        cmd += ["-map", "0:a", "-map_metadata", "1"]
+        if tags.cover:
+            cmd += ["-map", "2:v", "-c:v", "mjpeg", "-disposition:v:0", "attached_pic"]
+            cmd += ["-metadata:s:v", "title=Cover", "-metadata:s:v", "comment=Cover (front)"]
+        cmd += ["-c:a", "libmp3lame", "-q:a", "4", "-id3v2_version", "3"]
     cmd.append(str(target))
     try:
         subprocess.run(cmd, check=True, capture_output=True, text=True)

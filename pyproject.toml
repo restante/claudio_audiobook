@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "claudio-audiobook"
-version = "0.1.1"
+version = "0.1.2"
 description = "Turn text or a whole generated course into an audiobook with local Kokoro voices. MCP server for Claude Code and Claude Desktop."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -17,6 +17,7 @@ dependencies = [
     "mistune>=3.0.0",
     "psutil>=5.9",
     "imageio-ffmpeg>=0.5.1",
+    "pillow>=10.1",  # generated cover art
     "mcp>=1.2.0,<2",  # v2 renames FastMCP; revisit when moving to it
 ]
 
