@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.0
 
 - New: optional second engine, Pocket TTS (`engine` setting, `--engine pocket`). English, Italian, French, German,
   Portuguese, Spanish and Dutch; 27 built-in voices; clones a voice from a clip. As fast as Kokoro on a laptop CPU.

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "claudio-audiobook"
-version = "0.1.4"
+version = "0.2.0"
 description = "Turn text or a whole generated course into an audiobook with local Kokoro voices. MCP server for Claude Code and Claude Desktop."
 readme = "README.md"
 requires-python = ">=3.10"
