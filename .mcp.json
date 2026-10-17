@@ -4,7 +4,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "claudio-audiobook==0.1.4",
+        "claudio-audiobook==0.2.0",
         "claudio-audiobook-mcp"
       ]
     }
