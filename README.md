@@ -269,6 +269,30 @@ Import it into:
 Choose `--format mp3` for players that don't read M4B (some car stereos). Audible and Kindle use closed formats
 and cannot import it.
 
+## Optional second engine: Pocket TTS
+
+[Pocket TTS](https://github.com/kyutai-labs/pocket-tts) (Kyutai, 100M parameters) is an optional second voice engine.
+In the author's small blind listening test (one listener) it was preferred for neutral English and its Italian was
+judged good. It is as fast as
+Kokoro on a laptop CPU (about 4x real time on an Apple M1), speaks **English, Italian, French, German, Portuguese,
+Spanish and Dutch**, has 27 built-in voices, and can **clone a voice from a short clip**. Kokoro stays the default.
+
+```bash
+uv tool install claudio-audiobook --with pocket-tts      # or: pip install claudio-audiobook pocket-tts
+claudio-audiobook voices --engine pocket
+claudio-audiobook build libro.md --engine pocket --lang it
+```
+
+Ask for it in chat: *"use the pocket engine, in Italian"*. Differences from Kokoro, so nothing is silently ignored:
+- No `speed`, `clause_pause` or `trim` settings (asking for another speed is an error). The sentence and chapter
+  pauses work.
+- `voice` is a catalogue name (`alba`, `giovanni`, ...) or the path of a clean 5 to 30 second clip to clone. **Only clone
+  a voice you have the right to use.** Leave it out and each language gets its default voice (Italian: `giovanni`).
+- Not available in the Claude Desktop extension (it installs only the default dependencies); use Claude Code or the
+  command line.
+- Each language's model (about 400 MB) downloads once from Hugging Face the first time that language is used.
+- Pocket TTS weights are © Kyutai, licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the code is MIT.
+
 ## 54 voices, 9 languages
 
 ```text
@@ -288,6 +312,7 @@ Available as MCP tool arguments, CLI flags, and (for the first five, and the aut
 
 | Setting | CLI flag | Values | Default |
 |---|---|---|---|
+| engine | `--engine` | `kokoro` (default) or `pocket` (optional, see below) | `kokoro` |
 | voice | `--voice` | a name (`af_heart`, `bf_emma`, `im_nicola`, … 54 voices, 9 languages) or a blend `af_heart:0.6,af_sky:0.4` | `af_heart` |
 | speed | `--speed` | 0.5 to 2.0 | 1.0 |
 | language | `--lang` | espeak code, e.g. `de`; lets a voice read another language with an accent | the voice's own |
@@ -333,8 +358,8 @@ claudio-audiobook runs on your machine. Your text and audio are never uploaded, 
 account and no API key.
 
 It uses the network in two ways only: installing the package and its dependencies from PyPI (done by `uv` or
-`pip`), and a one-time download of the Kokoro voice model from its GitHub release, checked against a SHA-256
-sum. It starts only its own programs: the bundled ffmpeg, a start-up check of the speech engine, and a
+`pip`), and a one-time download of the voice model: Kokoro from its GitHub release, checked against a SHA-256
+sum, or, if you choose the optional Pocket engine, its model and voices from Hugging Face. It starts only its own programs: the bundled ffmpeg, a start-up check of the speech engine, and a
 background worker of this same package. It does not read or send credentials. Its settings are
 `CLAUDIO_AUDIOBOOK_*` environment variables, and only the home folder (`~`, `$HOME`) is ever expanded in a path.
 

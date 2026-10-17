@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- New: optional second engine, Pocket TTS (`engine` setting, `--engine pocket`). English, Italian, French, German,
+  Portuguese, Spanish and Dutch; 27 built-in voices; clones a voice from a clip. As fast as Kokoro on a laptop CPU.
+  Needs the `pocket-tts` package (not a dependency: `uv tool install claudio-audiobook --with pocket-tts`). No speed,
+  clause pause or trim setting; asking for them is an error. Kokoro stays the default and its output and chapter
+  fingerprints are unchanged, so nothing is re-rendered after upgrading. `voices --engine pocket` lists the voices.
+
 ## 0.1.4
 
 - Security: paths given to the tool (`output_dir`, `file`, `cover`) now expand only the home folder (`~`, `$HOME`,

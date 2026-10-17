@@ -14,6 +14,8 @@ To make an audiobook (for example "create a python course audiobook"):
    then call it again without dry_run to start the job. Set `author` if the person gives one. A title
    cover is generated locally: choose `cover_colors` ("#top,#bottom") that suit the topic, or pass
    `cover` with the path of an image they have.
+   Leave `engine` unset (Kokoro, the default). Use `engine="pocket"` only if the person asks for it or wants
+   to clone their own voice, and only if `setup_check` shows it installed; it has no speed setting.
    Leave `format` unset: m4b is the default and the best (chapter list, tags, cover). Use mp3 only if the
    person asks for it (some car stereos and old players) and tell them it has no chapter list; wav is just
    the per-chapter files. Changing the format, cover, author or narrator later only repackages: finished

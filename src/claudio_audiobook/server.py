@@ -6,7 +6,7 @@ import json
 
 from mcp.server.fastmcp import FastMCP
 
-from claudio_audiobook import espeak, jobs, model, package, paths, render, service, voices
+from claudio_audiobook import espeak, jobs, model, package, paths, pocket, render, service, voices
 from claudio_audiobook.guide import WRITING_GUIDE
 from claudio_audiobook.options import OptionError
 
@@ -33,6 +33,7 @@ def make_audiobook(
     trim: bool | None = None,
     model_variant: str | None = None,
     format: str | None = None,
+    engine: str | None = None,
     author: str | None = None,
     narrator: str | None = None,
     cover: str | None = None,
@@ -49,7 +50,8 @@ def make_audiobook(
     0.5-2.0, lang (espeak code such as de), sentence_pause / clause_pause / chapter_pause in seconds,
     trim (cut silence at sentence ends), model_variant "full" or "lite". format: leave it unset for
     m4b, the default and the audiobook standard (one file with a chapter list, tags and cover); mp3
-    and wav have no chapter list, so use them only when asked, and tell the person that. Book tags: author, narrator (default: the Kokoro voice). Cover art: by default a
+    and wav have no chapter list, so use them only when asked, and tell the person that. engine: leave it unset for Kokoro (fast, 54 voices); "pocket" is an optional
+    engine (needs the pocket-tts package, no speed setting, 7 languages, clones a voice from a clip). Book tags: author, narrator (default: the Kokoro voice). Cover art: by default a
     title cover is generated locally; choose its look with cover_colors "#top,#bottom" (hex, pick
     colours that suit the topic), or pass cover="path/to/image.png" (jpg/png) for your own, or
     cover="none". Unset settings use the user's defaults. force=true redoes finished chapters.
@@ -59,7 +61,7 @@ def make_audiobook(
             voice=voice, speed=speed, lang=lang, sentence_pause=sentence_pause,
             clause_pause=clause_pause, chapter_pause=chapter_pause, trim=trim,
             model=model_variant, format=format, author=author, narrator=narrator, cover=cover,
-            cover_colors=cover_colors,
+            cover_colors=cover_colors, engine=engine,
         )  # fmt: skip
         opts.validate()
         source, outdir, book = service.prepare(
@@ -87,8 +89,11 @@ def audiobook_status(job_id: str) -> str:
 
 
 @mcp.tool()
-def list_voices() -> str:
-    """The voices available, grouped by language. A voice can also be a blend: "af_heart:0.6,af_sky:0.4"."""
+def list_voices(engine: str | None = None) -> str:
+    """The voices available, grouped by language. A Kokoro voice can also be a blend:
+    "af_heart:0.6,af_sky:0.4". Pass engine="pocket" for the optional Pocket TTS voices."""
+    if engine == "pocket":
+        return pocket.listing()
     try:
         names = voices.available()
     except Exception as error:  # e.g. offline on first use
@@ -117,6 +122,7 @@ def setup_check() -> str:
             "full_model_ready": model.find("full") is not None,
             "lite_model_ready": model.find("lite") is not None,
             "ffmpeg": ffmpeg,
+            "pocket_engine_installed": pocket.available(),
             "audiobooks_folder": str(paths.output_root()),
             "note": "Missing models download automatically on the first audiobook.",
         },

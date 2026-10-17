@@ -10,9 +10,9 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
-from claudio_audiobook import cover, model, package, text, voices
+from claudio_audiobook import cover, model, package, pocket, text, voices
 from claudio_audiobook.options import Options
-from claudio_audiobook.synth import SAMPLE_RATE, Synth
+from claudio_audiobook.synth import SAMPLE_RATE, create_synth
 
 Progress = Callable[[str, int, int, str], None]  # (stage, done, total, message)
 
@@ -77,7 +77,10 @@ def _fingerprint(spoken: str, opts: Options) -> str:
         "trim",
         "model",
     )
-    blob = json.dumps([spoken] + [opts.as_dict()[k] for k in keys], sort_keys=True)
+    parts = [spoken] + [opts.as_dict()[k] for k in keys]
+    if opts.engine != "kokoro":  # Kokoro fingerprints stay as they were, so nothing re-renders
+        parts.append(opts.engine)
+    blob = json.dumps(parts, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()[:16]
 
 
@@ -141,7 +144,12 @@ def build(
     chapters, is_md = read_source(source)
     outdir.mkdir(parents=True, exist_ok=True)
 
-    if not voices.fake() and model.find(opts.model) is None:
+    if opts.engine == "pocket" and not voices.fake():
+        try:
+            pocket.require()
+        except pocket.PocketError as error:
+            raise AudiobookError(str(error)) from error
+    if opts.engine == "kokoro" and not voices.fake() and model.find(opts.model) is None:
         say("downloading", 0, 1, "downloading the Kokoro voice model (first use only)")
         model.ensure(
             opts.model, on_progress=lambda name, pct: say("downloading", pct, 100, f"{name} {pct}%")
@@ -152,7 +160,7 @@ def build(
         state = json.loads(state_file.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         state = {}
-    synth, wavs = Synth(opts.model), []
+    synth, wavs = create_synth(opts), []
     total = len(chapters)
     for i, chapter in enumerate(chapters, 1):
         path = chapter_path(outdir, i, chapter)

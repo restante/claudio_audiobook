@@ -12,14 +12,20 @@ from claudio_audiobook import (
     model,
     package,
     paths,
+    pocket,
     render,
     service,
     voices,
 )
-from claudio_audiobook.options import FORMATS, OptionError
+from claudio_audiobook.options import ENGINES, FORMATS, OptionError
 
 
 def _add_options(p: argparse.ArgumentParser) -> None:
+    p.add_argument(
+        "--engine",
+        choices=ENGINES,
+        help="kokoro (default) or pocket: optional, needs the pocket-tts package; no speed setting",
+    )
     p.add_argument(
         "--voice", help='one voice, or a blend: "af_heart:0.6,af_sky:0.4" (default af_heart)'
     )
@@ -58,6 +64,7 @@ def _options(a: argparse.Namespace):
         clause_pause=a.clause_pause, chapter_pause=a.chapter_pause,
         trim=False if a.no_trim else None, model=a.model, format=a.format,
         author=a.author, narrator=a.narrator, cover=a.cover, cover_colors=a.cover_colors,
+        engine=a.engine,
     )  # fmt: skip
 
 
@@ -89,6 +96,9 @@ def cmd_run_job(a: argparse.Namespace) -> int:
 
 
 def cmd_voices(a: argparse.Namespace) -> int:
+    if a.engine == "pocket":
+        print(pocket.listing())
+        return 0
     names = voices.available()
     for code, group in voices.grouped(names).items():
         print(f"{voices.label(code)} ({code}): {', '.join(group)}")
@@ -132,6 +142,11 @@ def cmd_doctor(a: argparse.Namespace) -> int:
         check(True, "speech engine (espeak-ng) starts")
     except espeak.EspeakError as error:
         check(False, "speech engine (espeak-ng)", str(error))
+    print(
+        "ok   pocket engine installed (optional)"
+        if pocket.available()
+        else "info pocket engine not installed (optional): " + pocket.INSTALL_HINT
+    )
     print(f"data folder: {paths.data_dir()}\nbooks go to: {paths.output_root()}")
     print(f"system ffmpeg (not required): {shutil.which('ffmpeg') or 'none'}")
     return 0 if ok else 1
@@ -161,6 +176,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_run_job)
 
     p = sub.add_parser("voices", help="list the available voices")
+    p.add_argument("--engine", choices=ENGINES, default="kokoro", help="which engine's voices")
     p.set_defaults(func=cmd_voices)
 
     p = sub.add_parser("download-model", help="download and verify the Kokoro model")

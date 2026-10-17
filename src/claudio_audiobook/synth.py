@@ -59,3 +59,12 @@ class Synth:
         if len(samples) == 0:
             raise SynthError("Kokoro produced no audio for this chapter")
         return samples.astype("float32"), rate
+
+
+def create_synth(opts: Options):
+    """The engine that renders text for these options: Kokoro by default, or Pocket TTS."""
+    if opts.engine == "pocket":
+        from claudio_audiobook.pocket import PocketSynth
+
+        return PocketSynth()
+    return Synth(opts.model)
