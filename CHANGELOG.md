@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- New: a second Claude Desktop extension, `claudio-audiobook-pocket-<version>.mcpb`, that bundles Pocket TTS (install
+  it instead of the standard one). `./scripts/build_mcpb.sh pocket` builds it from the same source: only the bundle's
+  own pyproject gains `pocket-tts`, so the repository's `pyproject.toml` and `uv.lock` are unchanged. It adds a
+  "Default engine" setting. First launch downloads about 1 GB (PyTorch).
+
 ## 0.2.0
 
 - New: optional second engine, Pocket TTS (`engine` setting, `--engine pocket`). English, Italian, French, German,

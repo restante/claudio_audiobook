@@ -94,6 +94,11 @@ claude mcp add claudio-audiobook -- uvx --from claudio-audiobook claudio-audiobo
 
 Desktop installs the dependencies itself.
 
+**Want the Pocket TTS engine in Desktop?** Install `claudio-audiobook-pocket-<version>.mcpb` from the same Releases page
+*instead of* the standard one (install one or the other). It adds Pocket TTS (7 languages, voice cloning) and a "Default
+engine" setting. Its first launch downloads PyTorch and the voice engine, about 1 GB: under a minute on a fast connection
+in testing, longer on a slow one, and Claude may show the extension as failed until it finishes (wait, then reconnect).
+
 ## Other AI tools
 
 It is a standard MCP server (stdio), so it is not tied to Claude. Install it once, then point your tool at it:
@@ -288,8 +293,8 @@ Ask for it in chat: *"use the pocket engine, in Italian"*. Differences from Koko
   pauses work.
 - `voice` is a catalogue name (`alba`, `giovanni`, ...) or the path of a clean 5 to 30 second clip to clone. **Only clone
   a voice you have the right to use.** Leave it out and each language gets its default voice (Italian: `giovanni`).
-- Not available in the Claude Desktop extension (it installs only the default dependencies); use Claude Code or the
-  command line.
+- In Claude Desktop, use the separate `claudio-audiobook-pocket` extension (see Install). The standard extension
+  installs only the default dependencies and does not include Pocket TTS.
 - Each language's model (about 400 MB) downloads once from Hugging Face the first time that language is used.
 - Pocket TTS weights are © Kyutai, licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); the code is MIT.
 
